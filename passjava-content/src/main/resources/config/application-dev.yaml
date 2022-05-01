@@ -1,0 +1,39 @@
+# application-dev.yaml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database.public.yhm.cn:3306/db_passjava?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    password: root
+    username: 123456
+  redis:
+    host: redis.public.yhm.cn
+    port: 6379
+    password: 123456
+    database: 0
+    timeout: 3000
+    lettuce:
+      pool:
+        max-idle: 8
+        max-active: 25
+        max-wait: 5000
+  jackson:
+    ## 格式为yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    ## 定时区，解决8小时的时间差问题
+    time-zone: GMT+8
+mybatis-plus:
+  # 实体类位置
+  type-aliases-package: cn.yhm.passjava.content.entity
+  # mapper xml文件位置
+  mapper-locations: classpath*:cn.passjava.content/mapper/xml/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 逻辑删除字段
+      logic-delete-field: is_delete
+      # 删除前
+      logic-not-delete-value: 1
+      # 删除后
+      logic-delete-value: 0
