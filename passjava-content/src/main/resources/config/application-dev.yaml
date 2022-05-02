@@ -2,9 +2,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database.public.yhm.cn:3306/db_passjava?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    password: root
-    username: 123456
+    url: jdbc:mysql://database.public.yhm.cn:3306/db_passjava?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTCC&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
   redis:
     host: redis.public.yhm.cn
     port: 6379
@@ -20,7 +20,7 @@ spring:
     ## 格式为yyyy-MM-dd HH:mm:ss
     date-format: yyyy-MM-dd HH:mm:ss
     ## 定时区，解决8小时的时间差问题
-    time-zone: GMT+8
+    time-zone: GMT+0
 mybatis-plus:
   # 实体类位置
   type-aliases-package: cn.yhm.passjava.content.entity
