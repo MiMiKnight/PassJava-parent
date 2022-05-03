@@ -1,10 +1,8 @@
 package cn.yhm.passjava.common.result;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageInfo;
 import lombok.Data;
-import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -15,28 +13,42 @@ import java.util.List;
  * @date 2022-02-13 19:58:29
  */
 @Data
+@Accessors(chain = true)
 public class CommonPage<T> {
     /**
      * 当前页码
      */
     private long current;
+
     /**
      * 每页记录数
      */
-    private long size;
+    private long pageSize;
+
+    /**
+     * 是否第一页
+     */
+    private boolean isFirstPage;
+
+    /**
+     * 是否最后一页
+     */
+    private boolean isLastPage;
+
     /**
      * 总页数
      */
     private long pages;
+
     /**
      * 总记录数
      */
     private long total;
+
     /**
      * 当前分页集合
      */
     private List<T> records;
-
 
     /**
      * 通用Page
@@ -47,19 +59,19 @@ public class CommonPage<T> {
     /**
      * 分页方法
      *
-     * @param records 总记录
-     * @param current 当前页
-     * @param size    每页记录数
-     * @param pages   总页数
-     * @param total   总记录数
+     * @param records  当前分页集合
+     * @param current  当前页
+     * @param pageSize 每页记录数
+     * @param pages    总页数
+     * @param total    总记录数
      * @return {@link CommonPage}<{@link T}>
      */
-    public static <T> CommonPage<T> page(List<T> records, long current, long size, long pages, long total) {
+    public static <T> CommonPage<T> page(List<T> records, long current, long pageSize, long pages, long total) {
         CommonPage<T> commonPage = new CommonPage<>();
         // 当前页
         commonPage.setCurrent(current);
         // 每页记录数
-        commonPage.setSize(size);
+        commonPage.setPageSize(pageSize);
         // 页数
         commonPage.setPages(pages);
         // 总记录数

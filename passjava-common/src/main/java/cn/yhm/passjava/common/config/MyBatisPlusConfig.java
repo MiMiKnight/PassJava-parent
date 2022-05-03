@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022-04-30 14:50:49
  */
 @Configuration
-@MapperScan("cn.yhm.passjava.*.mapper")
+@MapperScan(basePackages = {"cn.yhm.passjava.*.mapper"})
 public class MyBatisPlusConfig {
 
     /**

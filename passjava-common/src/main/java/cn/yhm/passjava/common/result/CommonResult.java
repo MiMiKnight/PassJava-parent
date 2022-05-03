@@ -17,10 +17,12 @@ public class CommonResult {
      * 状态码
      */
     private long code;
+
     /**
      * 状态消息
      */
     private String message;
+
     /**
      * 状态数据
      */
