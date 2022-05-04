@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yhm.passjava.content.mapper.ProvinceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.yhm.passjava.content.entity.ProvinceEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="number" property="number"/>
+    </resultMap>
+
+    <!--省份map-->
+    <resultMap id="ProvinceVoMap" type="cn.yhm.passjava.content.domain.vo.ProvinceVo">
+        <result property="name" column="pName"/>
+        <result property="number" column="pNumber"/>
+        <collection property="citys" column="pid" javaType="java.util.ArrayList"
+                    ofType="cn.yhm.passjava.content.domain.vo.CityVO"
+                    select="cn.yhm.passjava.content.mapper.CityMapper.getCityListByProvinceId"/>
+    </resultMap>
+
+    <!--分页查询省份+城市信息-->
+    <!--
+        嵌套分页查询只能通过 mybatis的子查询实现否则分页数据有问题
+    -->
+    <select id="getProvinceListByPage" resultMap="ProvinceVoMap">
+        SELECT t1.id     AS pid,
+               t1.name   AS pName,
+               t1.number AS pNumber
+        FROM t_province AS t1
+        ORDER BY t1.name,
+                 t1.id
+        LIMIT ${(current-1)*pageSize},#{pageSize};
+        SELECT FOUND_ROWS() AS total;
+    </select>
+
+</mapper>

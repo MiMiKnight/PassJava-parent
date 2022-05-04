@@ -116,6 +116,7 @@
 
     <!--Build-->
     <build>
+        <!--Plugin-->
         <plugins>
             <!-- spring-boot-maven-plugin -->
             <plugin>
@@ -137,6 +138,17 @@
                 </executions>
             </plugin>
         </plugins>
+        <!--resources-->
+        <resources>
+            <!--编译 src/main/java 包中的如下类型文件-->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 
     <!--Maven仓库-->

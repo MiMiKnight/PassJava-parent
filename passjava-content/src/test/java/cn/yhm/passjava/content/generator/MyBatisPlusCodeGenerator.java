@@ -35,7 +35,7 @@ public class MyBatisPlusCodeGenerator {
         // 设置基本参数
         log.info("MyBatisPlus Code Generator 基本信息配置");
         // URL
-        String url = "jdbc:mysql://mysql.public.yhm.cn:3306/db_passjava?characterEncoding=UTF8&useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://mysql.public.yhm.cn:3306/db_passjava?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
         // 数据库用户名
         String username = "root";
         // 数据库密码
@@ -51,7 +51,7 @@ public class MyBatisPlusCodeGenerator {
         // 模块名
         String moduleName = "content";
         // 表名
-        String[] tableNameArray = {"", ""};
+        String[] tableNameArray = {"t_province", "t_city", "t_county"};
         // 过滤表前缀
         String[] tablePrefixArray = {"t_"};
         // 过滤字段前缀
@@ -69,38 +69,26 @@ public class MyBatisPlusCodeGenerator {
 
         //**************************************************************************
         // 设置mapper.xml位置
-        String mapperXmlOutputDir = codeOutputDir + "/" +
-                packageName.replace(".", "/") +
-                "/" +
-                moduleName +
-                "/mapper/xml";
+        String mapperXmlOutputDir = codeOutputDir + "/" + packageName.replace(".", "/") + "/" + moduleName + "/mapper/xml";
 
         // 1、数据源配置
         //如果你的MySQL版本为8，必需要在数据库地址后面加上时区, 像serverTimezone=Asia/Shanghai
         log.info("MyBatisPlus Code Generator 数据源配置");
-        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(url, username, password)
-                .dbQuery(new MySqlQuery())
-                .schema(database)
-                .typeConvert(new MySqlTypeConvert())
-                .keyWordsHandler(new MySqlKeyWordsHandler())
-                .build();
+        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(url, username, password).dbQuery(new MySqlQuery()).schema(database).typeConvert(new MySqlTypeConvert()).keyWordsHandler(new MySqlKeyWordsHandler()).build();
 
         // 2、全局配置
         log.info("MyBatisPlus Code Generator 全局配置");
-        GlobalConfig globalConfig = new GlobalConfig.Builder()
-                .outputDir(codeOutputDir)      // 设置输出文件夹
+        GlobalConfig globalConfig = new GlobalConfig.Builder().outputDir(codeOutputDir)      // 设置输出文件夹
                 //.fileOverride()                // 覆盖已生成文件
                 .disableOpenDir()              // 生成后不打开资源管理器
                 .author(author)                // 设置作者
                 .enableSwagger()               // 启用Swagger注解
                 .dateType(DateType.TIME_PACK)  // 设置日期类型
-                .commentDate("yyyy-MM-dd HH:mm:ss")
-                .build();
+                .commentDate("yyyy-MM-dd HH:mm:ss").build();
 
         // 3、包生成配置
         log.info("MyBatisPlus Code Generator 包配置");
-        PackageConfig packageConfig = new PackageConfig.Builder()
-                .parent(packageName)         // 父包名
+        PackageConfig packageConfig = new PackageConfig.Builder().parent(packageName)         // 父包名
                 .moduleName(moduleName)      // 父包模块名
                 .controller("controller")    // Controller 包名
                 .service("service")          // Service 包名
@@ -109,17 +97,14 @@ public class MyBatisPlusCodeGenerator {
                 .xml("mapper.xml")           // Mapper XML 包名
                 .entity("entity")            // Entity 包名
                 //.other("other")            // 自定义文件包名
-                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperXmlOutputDir))
-                .build();
+                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperXmlOutputDir)).build();
 
         // 4、策略配置
         log.info("MyBatisPlus Code Generator 策略配置");
-        StrategyConfig strategyConfig = new StrategyConfig.Builder()
-                .enableCapitalMode()              // 开启大写命名
+        StrategyConfig strategyConfig = new StrategyConfig.Builder().enableCapitalMode()              // 开启大写命名
                 .enableSkipView()                 // 跳过视图
                 .disableSqlFilter()               // 禁用 sql 过滤
-                .likeTable(new LikeTable("USER"))
-                .addInclude(tableNameArray)       // 增加表匹配(内存过滤)
+                .likeTable(new LikeTable("USER")).addInclude(tableNameArray)       // 增加表匹配(内存过滤)
                 .addTablePrefix(tablePrefixArray) // 增加过滤表前缀
                 .addFieldPrefix(fieldPrefixArray) // 增加过滤字段前缀
                 .entityBuilder()                        // Entity策略配置
@@ -133,9 +118,7 @@ public class MyBatisPlusCodeGenerator {
                 .versionPropertyName(versionName)                 // 乐观锁属性名(实体)
                 .logicDeleteColumnName(logicDeleteColumnName)     // 逻辑删除字段名(数据库)
                 .logicDeletePropertyName(logicDeletePropertyName) //  逻辑删除属性名(实体)
-                .addTableFills(new Column(createTimeColumnName, FieldFill.INSERT))
-                .addTableFills(new Column(updateTimeColumnName, FieldFill.INSERT_UPDATE))
-                .formatFileName("%sEntity")         // 格式化Entity文件名称
+                .addTableFills(new Column(createTimeColumnName, FieldFill.INSERT)).addTableFills(new Column(updateTimeColumnName, FieldFill.INSERT_UPDATE)).formatFileName("%sEntity")         // 格式化Entity文件名称
                 .mapperBuilder()                    // Mapper策略配置
                 .enableMapperAnnotation()           // 开启 @Mapper 注解
                 .enableBaseResultMap()              // 启用 BaseResultMap 生成
@@ -152,10 +135,7 @@ public class MyBatisPlusCodeGenerator {
 
         // 5、设置配置 执行代码
         log.info("MyBatisPlus Code Generator 执行....");
-        AutoGenerator autoGenerator = new AutoGenerator(dataSourceConfig)
-                .global(globalConfig)
-                .packageInfo(packageConfig)
-                .strategy(strategyConfig);
+        AutoGenerator autoGenerator = new AutoGenerator(dataSourceConfig).global(globalConfig).packageInfo(packageConfig).strategy(strategyConfig);
 
         // 6、执行
         autoGenerator.execute();
